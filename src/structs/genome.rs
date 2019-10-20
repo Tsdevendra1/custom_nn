@@ -6,3 +6,9 @@ pub struct Genome {
     pub nodes: Vec<NodeGene>,
     pub fitness: f64,
 }
+
+impl Genome {
+    fn get_all_paths(&self, ){
+
+    }
+}

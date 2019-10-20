@@ -8,5 +8,6 @@ mod tests {
 
 mod structs;
 mod general_helpers;
+mod maths_helpers;
 
 

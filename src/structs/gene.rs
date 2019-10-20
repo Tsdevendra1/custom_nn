@@ -27,7 +27,8 @@ impl ConnectionGene {
     }
 }
 
-enum NodeType {
+#[derive(Debug)]
+pub enum NodeType {
     Source,
     Hidden,
     Output
