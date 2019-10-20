@@ -28,16 +28,18 @@ impl ConnectionGene {
 }
 
 #[derive(Debug)]
-pub enum NodeType {
-    Source,
-    Hidden,
-    Output
+pub struct NodeGene {
+    pub id: i32,
+    pub bias: Option<f64>,
+    pub node_type:  NodeType,
 }
 
 #[derive(Debug)]
-pub struct NodeGene {
-    pub node_type: NodeType,
-    pub node_id: i32,
-    pub bias: Option<f64>,
-
+#[derive(PartialEq)]
+pub enum NodeType {
+    SourceNode,
+    HiddenNode,
+    OutputNode,
 }
+
+

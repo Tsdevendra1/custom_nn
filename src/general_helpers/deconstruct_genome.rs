@@ -1,7 +1,7 @@
 use crate::structs::genome::Genome;
 use crate::structs::gene::ConnectionGene;
 
-struct DeconstructGenome {}
+pub(crate) struct DeconstructGenome {}
 
 impl DeconstructGenome {
     fn unpack_genome(genome: Genome) {
