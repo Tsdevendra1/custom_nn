@@ -1,5 +1,5 @@
 #[derive(Debug)]
-struct ConnectionGene {
+pub struct ConnectionGene {
     pub enabled: bool,
     pub input_node: i32,
     pub output_node: i32,
@@ -34,7 +34,7 @@ enum NodeType {
 }
 
 #[derive(Debug)]
-struct NodeGene {
+pub struct NodeGene {
     pub node_type: NodeType,
     pub node_id: i32,
     pub bias: Option<f64>,

@@ -6,4 +6,7 @@ mod tests {
     }
 }
 
+mod structs;
+mod general_helpers;
+
 
