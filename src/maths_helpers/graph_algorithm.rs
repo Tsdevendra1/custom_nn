@@ -2,8 +2,8 @@ use std::collections::{HashMap, HashSet};
 use std::borrow::Borrow;
 
 pub(crate) struct Graph {
-    nodes: HashSet<i32>,
-    connections: HashMap<i32, Vec<i32>>,
+    pub nodes: HashSet<i32>,
+    pub connections: HashMap<i32, Vec<i32>>,
 }
 
 impl Graph {
@@ -32,6 +32,7 @@ impl Graph {
 
     fn explore_all_paths(&self, current_node: i32, destination: i32, visited_tracker: &mut
     HashMap<i32, bool>, layer_number: &mut i32, path: &mut Vec<i32>, all_paths_tracker: &mut Vec<Vec<i32>>) {
+
         visited_tracker.insert(current_node, true);
         path.push(current_node);
         *layer_number += 1;
@@ -45,7 +46,7 @@ impl Graph {
             if let Some(neighbours) = self.connections.get(&current_node) {
                 for neighbour in neighbours {
                     if !visited_tracker.get(neighbour).unwrap() {
-                        self.explore_all_paths(current_node, destination, visited_tracker,
+                        self.explore_all_paths(*neighbour, destination, visited_tracker,
                                                layer_number, path, all_paths_tracker);
                     }
                 }
@@ -53,7 +54,7 @@ impl Graph {
         }
     }
 
-    fn get_all_paths(&self, start_nodes: &Vec<i32>, end_nodes: &Vec<i32>) {
+    pub fn get_all_paths(&self, start_nodes: &Vec<i32>, end_nodes: &Vec<i32>) -> Vec<Vec<i32>> {
         let mut visited_tracker: HashMap<i32, bool>;
         // initalise as none of the nodes have been visited
         let mut all_paths_tracker = Vec::new();
@@ -71,5 +72,7 @@ impl Graph {
                     layer_number, &mut path, &mut all_paths_tracker);
             }
         }
+
+        all_paths_tracker
     }
 }
