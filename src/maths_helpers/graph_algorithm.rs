@@ -7,7 +7,7 @@ pub(crate) struct Graph {
 }
 
 impl Graph {
-    pub(crate) fn new(connections: &Vec<(i32, i32)>) -> Graph {
+    pub(crate) fn new(connections: &[(i32, i32)]) -> Graph {
         let mut graph = Graph { nodes: HashSet::new(), connections: HashMap::new() };
         for connection in connections {
             graph.add_edge(connection.0, connection.1);
@@ -42,19 +42,17 @@ impl Graph {
             *layer_number -= 1;
             path.pop();
             visited_tracker.insert(current_node, false);
-        } else {
-            if let Some(neighbours) = self.connections.get(&current_node) {
-                for neighbour in neighbours {
-                    if !visited_tracker.get(neighbour).unwrap() {
-                        self.explore_all_paths(*neighbour, destination, visited_tracker,
-                                               layer_number, path, all_paths_tracker);
-                    }
+        } else if let Some(neighbours) = self.connections.get(&current_node) {
+            for neighbour in neighbours {
+                if !visited_tracker.get(neighbour).unwrap() {
+                    self.explore_all_paths(*neighbour, destination, visited_tracker,
+                                           layer_number, path, all_paths_tracker);
                 }
             }
         }
     }
 
-    pub fn get_all_paths(&self, start_nodes: &Vec<i32>, end_nodes: &Vec<i32>) -> Vec<Vec<i32>> {
+    pub fn get_all_paths(&self, start_nodes: &[i32], end_nodes: &[i32]) -> Vec<Vec<i32>> {
         let mut visited_tracker: HashMap<i32, bool>;
         // initalise as none of the nodes have been visited
         let mut all_paths_tracker = Vec::new();

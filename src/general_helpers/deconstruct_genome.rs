@@ -11,7 +11,7 @@ impl DeconstructGenome {
         let sorted_connections =  DeconstructGenome::sort_connections(connections);
     }
 
-    fn sort_connections(connections: &Vec<ConnectionGene>){
+    fn sort_connections(connections: &[ConnectionGene]){
 
     }
 }

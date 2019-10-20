@@ -10,13 +10,21 @@ mod tests {
 
 
     #[test]
-    fn test_graph_creation() {
+    fn test_graph_simple() {
         let connections = vec![(1, 2), (2, 3), (3, 4)];
         let graph = Graph::new(&connections);
-        println!("{:?}", graph.connections);
-//        let paths = graph.get_all_paths(&vec![1], &vec![4]);
-//        println!("{:?}", paths);
+        let paths = graph.get_all_paths(&vec![1], &vec![4]);
+        assert_eq!(paths.len(), 1);
+        assert_eq!(paths[0].len(), 4);
+    }
 
+    #[test]
+    fn test_graph_more_complex() {
+        let connections = vec![(1, 2), (2, 3), (3, 4), (4,)];
+        let graph = Graph::new(&connections);
+        let paths = graph.get_all_paths(&vec![1], &vec![4]);
+        assert_eq!(paths.len(), 1);
+        assert_eq!(paths[0].len(), 4);
     }
 }
 
