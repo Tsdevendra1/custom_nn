@@ -28,6 +28,7 @@ impl ConnectionGene {
 }
 
 #[derive(Debug)]
+#[derive(PartialEq)]
 pub struct NodeGene {
     pub id: i32,
     pub bias: Option<f64>,

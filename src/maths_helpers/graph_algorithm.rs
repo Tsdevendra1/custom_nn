@@ -1,6 +1,5 @@
 use std::collections::{HashMap, HashSet};
 use std::borrow::Borrow;
-use crate::structs::gene::{ConnectionGene, NodeGene, NodeType};
 
 pub(crate) struct Graph {
     nodes: HashSet<i32>,
@@ -54,30 +53,21 @@ impl Graph {
         }
     }
 
-    fn get_all_paths(&self, nodes: &Vec<NodeGene>) {
+    fn get_all_paths(&self, start_nodes: &Vec<i32>, end_nodes: &Vec<i32>) {
         let mut visited_tracker: HashMap<i32, bool>;
         // initalise as none of the nodes have been visited
         let mut all_paths_tracker = Vec::new();
-        let mut start_nodes: Vec<&NodeGene> = vec![];
-        let mut end_nodes: Vec<&NodeGene> = vec![];
 
-        for node in nodes {
-            match node.node_type {
-                NodeType::SourceNode => start_nodes.push(node),
-                NodeType::OutputNode => end_nodes.push(node),
-                _ => {}
-            }
-        }
-
-        for start_node in &start_nodes {
-            for end_node in &end_nodes {
+        for start_node in start_nodes {
+            for end_node in end_nodes {
                 visited_tracker = HashMap::new();
                 for node in &self.nodes {
                     visited_tracker.insert(*node, false);
                 }
                 let mut layer_number = 0;
                 let mut path = Vec::new();
-                self.explore_all_paths(start_node.id, end_node.id, &mut visited_tracker, &mut
+
+                self.explore_all_paths(*start_node, *end_node, &mut visited_tracker, &mut
                     layer_number, &mut path, &mut all_paths_tracker);
             }
         }
