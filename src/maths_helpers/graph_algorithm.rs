@@ -39,9 +39,6 @@ impl Graph {
 
         if current_node == destination {
             all_paths_tracker.push(path.clone());
-            *layer_number -= 1;
-            path.pop();
-            visited_tracker.insert(current_node, false);
         } else if let Some(neighbours) = self.connections.get(&current_node) {
             for neighbour in neighbours {
                 if !visited_tracker.get(neighbour).unwrap() {
@@ -50,6 +47,9 @@ impl Graph {
                 }
             }
         }
+        *layer_number -= 1;
+        path.pop();
+        visited_tracker.insert(current_node, false);
     }
 
     pub fn get_all_paths(&self, start_nodes: &[i32], end_nodes: &[i32]) -> Vec<Vec<i32>> {
