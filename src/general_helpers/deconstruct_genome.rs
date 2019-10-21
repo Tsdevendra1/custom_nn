@@ -3,6 +3,7 @@ use crate::structs::gene::{ConnectionGene, NodeGene};
 use std::collections::{HashSet, HashMap};
 use crate::maths_helpers::graph_algorithm::Graph;
 
+
 pub(crate) struct DeconstructGenome {}
 
 impl DeconstructGenome {
@@ -14,13 +15,16 @@ impl DeconstructGenome {
 
         let node_layers = DeconstructGenome::get_node_layers(connections, &genome.start_nodes,
                                                              &genome.end_nodes);
-//        let sorted_connections =  DeconstructGenome::sort_connections(connections);
+
+        let num_layers = node_layers.values().max().unwrap();
+        let layer_nodes = DeconstructGenome::get_nodes_per_layer(&node_layers);
+
+        let node_map = DeconstructGenome::get_node_map(&layer_nodes);
     }
 
 
-    fn get_node_layers<'a>(connections: &[ConnectionGene], start_nodes: &[&NodeGene],
-                       end_nodes: &[&NodeGene]) -> HashMap<i32,i32> {
-
+    fn get_node_layers(connections: &[ConnectionGene], start_nodes: &[&NodeGene],
+                       end_nodes: &[&NodeGene]) -> HashMap<i32, i32> {
         let enabled_connections = connections.iter().filter(|connection| {
             connection.enabled
         }).collect::<Vec<&ConnectionGene>>();
@@ -29,18 +33,27 @@ impl DeconstructGenome {
              connection.output_node)
         }).collect::<Vec<(i32, i32)>>();
 
-        let mut graph= Graph::new(&connections_as_tuples);
+        let mut graph = Graph::new(&connections_as_tuples);
 
-        let start_node_ids = start_nodes.iter().map(|node|{node.id}).collect::<Vec<i32>>();
-        let end_node_ids = end_nodes.iter().map(|node|{node.id}).collect::<Vec<i32>>();
+        let start_node_ids = start_nodes.iter().map(|node| { node.id }).collect::<Vec<i32>>();
+        let end_node_ids = end_nodes.iter().map(|node| { node.id }).collect::<Vec<i32>>();
 
         let (_, node_layers) = graph.get_all_paths(&start_node_ids, &end_node_ids);
 
-        return node_layers
+        node_layers
+    }
 
-
+    fn get_nodes_per_layer(node_layers: &HashMap<i32, i32>) -> HashMap<&i32, Vec<&i32>> {
+        /// Gets a vec of nodes which are in each layer
+        let mut layer_nodes: HashMap<&i32, Vec<&i32>> = HashMap::new();
+        for (node_id, layer) in node_layers {
+            layer_nodes.entry(layer).or_insert(vec![node_id]).push(node_id);
+        }
+        layer_nodes
     }
 
 
-    fn sort_connections(connections: &[ConnectionGene]) {}
+    fn get_node_map(layer_nodes: &HashMap<&i32, Vec<&i32>>) {
+
+    }
 }
