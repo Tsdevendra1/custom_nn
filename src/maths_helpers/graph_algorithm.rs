@@ -66,7 +66,7 @@ impl Graph {
         visited_tracker.insert(current_node, false);
     }
 
-    pub fn get_all_paths(&mut self, start_nodes: &[i32], end_nodes: &[i32]) -> Vec<Vec<i32>> {
+    pub fn get_all_paths(&mut self, start_nodes: &[i32], end_nodes: &[i32]) -> (Vec<Vec<i32>>, HashMap<i32, i32>) {
         let mut visited_tracker: HashMap<i32, bool>;
         // initalise as none of the nodes have been visited
         let mut all_paths_tracker = Vec::new();
@@ -86,8 +86,7 @@ impl Graph {
             }
         }
 
-        self.node_layer_tracker = node_layer_tracker;
 
-        all_paths_tracker
+        (all_paths_tracker, node_layer_tracker)
     }
 }
